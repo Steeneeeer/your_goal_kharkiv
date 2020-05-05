@@ -12,7 +12,7 @@ def start(message):
     markup = types.InlineKeyboardMarkup(row_width=1)
     prices = types.InlineKeyboardButton("Цены", callback_data= "prices")
     schedule = types.InlineKeyboardButton("Расписание", callback_data="schedule")
-    addres = types.InlineKeyboardButton("Адресс", callback_data="addres")
+    addres = types.InlineKeyboardButton("Адрес", callback_data="addres")
     ice_info = types.InlineKeyboardButton("Информация по льду", callback_data="ice_info")
     coaches = types.InlineKeyboardButton("Тренера", callback_data="coaches")
     ask = types.InlineKeyboardButton("Задать вопрос", callback_data="ask")
