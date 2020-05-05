@@ -1,5 +1,5 @@
 import telebot
 
-from your_goal_kharkiv.handlers import TOKEN
+from config import TOKEN
 
-BOT = telebot.TeleBot(TOKEN)
+bot = telebot.TeleBot(TOKEN)

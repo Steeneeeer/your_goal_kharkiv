@@ -1,29 +1,27 @@
 import telebot
+import config
 from telebot import types
-from bot import BOT
-from .models import Chat, TgUser
-import your_goal_kharkiv.phrases as ph
+import phrases as ph
 
 
-bot = telebot.TeleBot("1109214579:AAHpGYeD5Y1Go9eCnlC0QkGANKU00WPQJm0")
+bot = telebot.TeleBot(config.TOKEN)
+
+
+@bot.message_handler(commands=['start'])
+def start(message):
+    markup = types.InlineKeyboardMarkup()
+    markup.add(types.InlineKeyboardButton("Цены", callback_data= "prices"))
+    markup.add(types.InlineKeyboardButton("Расписание", callback_data="schedule"))
+    markup.add(types.InlineKeyboardButton("Адресс", callback_data="addres"))
+    markup.add(types.InlineKeyboardButton("Информация по льду", callback_data="ice_info"))
+    markup.add(types.InlineKeyboardButton("Тренера", callback_data="coached"))
+    markup.add(types.InlineKeyboardButton("Задать вопрос", callback_data="ask"))
+    return bot.send_message(message.chat.id, ph.START_MESSAGE, reply_markup=markup)
 
 bot.polling(none_stop=True)
 
-@BOT.message_handler(commands=['start'])
-def start(message):
-    markup = types.InlineKeyboardMarkup()
-    markup.add(types.InlineKeyboardButton("Цены", ph.PRICES_MESSAGE))
-    markup.add(types.InlineKeyboardButton("Расписание", ph.SCHEDULE_MESSAGE))
-    markup.add(types.InlineKeyboardButton("Адресс", ph.ADRESS_MESSAGE))
-    markup.add(types.InlineKeyboardButton("Информация по льду", ph.ICE_INFO_MESSAGE))
-    markup.add(types.InlineKeyboardButton("Тренера", ph.COACHES_MESSAGE))
-    markup.add(types.InlineKeyboardButton("Задать вопрос", ph.ASK_MESSAGE))
-    return BOT.reply_to(message, ph.START_MESSAGE)
 
-
-
-
-# @BOT.message_handler(commands=['start'])
+#@BOT.message_handler(commands=['start'])
 # def cmd_start(message):
 #     if not user_exists(message.chat.id):
 #         tg_id = message.chat.id
