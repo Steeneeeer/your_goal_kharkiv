@@ -15,11 +15,11 @@ class MyPaginator(InlineKeyboardPaginator):
     current_page_label = '-{}-'
     next_page_label = '>'
 
-    paginator = InlineKeyboardPaginator(
-        len(coaches_list),
-        current_page=1,
-        data_pattern='coaches_list#{page}'
-    )
+    # paginator = InlineKeyboardPaginator(
+    #     len(coaches_list),
+    #     current_page=1,
+    #     data_pattern='coaches_list#{page}'
+    # )
 
 
 # bot.send_message(
