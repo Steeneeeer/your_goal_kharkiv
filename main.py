@@ -48,7 +48,7 @@ def coaches_list_pagination(call):
     page_number = int(call.data.split('#')[1])
     current_page = int(call.data.split('#')[-1])
     if page_number == current_page:
-        return bot.answer_callback_query(callback_query_id=call.id, show_alert=False, text="Пошел нахуй")
+        return bot.answer_callback_query(callback_query_id=call.id, show_alert=False, text="Current coach")
 
     message_text, markup = generate_pagination_messsage(page_number)
     bot.edit_message_text(message_text, chat_id=call.message.chat.id, message_id=call.message.message_id, reply_markup=markup)    
