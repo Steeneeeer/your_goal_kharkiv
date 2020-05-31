@@ -14,9 +14,9 @@ def start(message):
     return bot.send_message(message.chat.id, ph.START_MESSAGE, reply_markup=main_keyboard)
 
 
-@bot.callback_query_handler(func=lambda call: call.data == 'schedule')
-def callback_inline(call):
-    return bot.send_message(call.message.chat.id, ph.SCHEDULE_MESSAGE, reply_markup=schedule_keyboard)
+@bot.message_handler(commands=['schedule'])
+def schedule(message):
+    return bot.send_message(message.chat.id, ph.SCHEDULE_MESSAGE, reply_markup=schedule_keyboard)
 
 
 @bot.callback_query_handler(func=lambda call: call.data == 'address')
