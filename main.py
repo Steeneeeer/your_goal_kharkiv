@@ -2,9 +2,8 @@ import telebot
 import config
 import phrases as ph
 from keyboards import main_keyboard
-from keyboards import schedule_keyboard
+from keyboards import schedule_keyboard, schedule_button, coaches_button
 import coaches as pg
-
 
 bot = telebot.TeleBot(config.TOKEN)
 
@@ -14,11 +13,12 @@ def start(message):
     return bot.send_message(message.chat.id, ph.START_MESSAGE, reply_markup=main_keyboard)
 
 
-@bot.message_handler(commands=['schedule'])
+@bot.message_handler(func=lambda message: message.text == schedule_button.text)
 def schedule(message):
     return bot.send_message(message.chat.id, ph.SCHEDULE_MESSAGE, reply_markup=schedule_keyboard)
 
-#отъебись, тут ещё не исправлял, потом сделаю по анналогии с расписанием
+
+# отъебись, тут ещё не исправлял, потом сделаю по аналогии с расписанием
 
 @bot.callback_query_handler(func=lambda call: call.data == 'address')
 def callback_inline(call):
@@ -37,11 +37,10 @@ def callback_inline(call):
     bot.send_message(call.message.chat.id, ph.ICE_INFO_MESSAGE)
 
 
-@bot.callback_query_handler(func=lambda call: call.data == 'coaches')
-def coaches_list_callback(call):
-    bot.edit_message_text(ph.COACHES_MESSAGE, chat_id=call.message.chat.id, message_id=call.message.message_id)
-    message_text, markup = generate_pagination_messsage()
-    bot.send_message(call.message.chat.id, message_text, reply_markup=markup)
+@bot.message_handler(func=lambda message: message.text == coaches_button.text)
+def coaches_list_callback(message):
+    message_text, photo_id, markup = generate_pagination_messsage()
+    bot.send_photo(message.chat.id, photo_id, message_text, reply_markup=markup)
 
 
 @bot.callback_query_handler(func=lambda call: call.data.split('#')[0] == 'coaches_list')
@@ -51,8 +50,11 @@ def coaches_list_pagination(call):
     if page_number == current_page:
         return bot.answer_callback_query(callback_query_id=call.id, show_alert=False, text="Current coach")
 
-    message_text, markup = generate_pagination_messsage(page_number)
-    bot.edit_message_text(message_text, chat_id=call.message.chat.id, message_id=call.message.message_id, reply_markup=markup)    
+    message_text, photo_id, markup = generate_pagination_messsage(page_number)
+
+    media = telebot.types.InputMedia('photo', photo_id, message_text)
+
+    bot.edit_message_media(media, call.message.chat.id, call.message.message_id, reply_markup=markup)
 
 
 def generate_pagination_messsage(current_page=1):
@@ -61,8 +63,10 @@ def generate_pagination_messsage(current_page=1):
         current_page=current_page,
         data_pattern='coaches_list#{page}#current_page#%d' % current_page
     )
-    message = " ".join(pg.coaches_list[current_page])
-    return message, paginator.markup
+    coach = pg.coaches_list[current_page]
+    message = coach.text
+    photo_id = coach.photo_id
+    return message, photo_id, paginator.markup
 
 
 @bot.callback_query_handler(func=lambda call: call.data == 'ask')

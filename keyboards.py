@@ -2,14 +2,14 @@ from telebot import types
 
 main_keyboard = types.ReplyKeyboardMarkup(row_width=2)
 
-prices = types.KeyboardButton("Цены")
-schedule = types.KeyboardButton("Расписание")
-address = types.KeyboardButton("Адрес")
-ice_info = types.KeyboardButton("Информация по льду")
-coaches = types.KeyboardButton("Тренера")
-ask = types.KeyboardButton("Задать вопрос")
+prices_button = types.KeyboardButton("Цены")
+schedule_button = types.KeyboardButton("Расписание")
+address_button = types.KeyboardButton("Адрес")
+ice_info_button = types.KeyboardButton("Информация по льду")
+coaches_button = types.KeyboardButton("Тренера")
+ask_button = types.KeyboardButton("Задать вопрос")
 
-main_keyboard.add(prices, schedule, address, ice_info, coaches, ask)
+main_keyboard.add(prices_button, schedule_button, address_button, ice_info_button, coaches_button, ask_button)
 
 
 schedule_keyboard = types.InlineKeyboardMarkup()
