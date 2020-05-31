@@ -18,6 +18,7 @@ def start(message):
 def schedule(message):
     return bot.send_message(message.chat.id, ph.SCHEDULE_MESSAGE, reply_markup=schedule_keyboard)
 
+#отъебись, тут ещё не исправлял, потом сделаю по анналогии с расписанием
 
 @bot.callback_query_handler(func=lambda call: call.data == 'address')
 def callback_inline(call):
