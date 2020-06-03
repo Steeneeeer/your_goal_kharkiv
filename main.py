@@ -2,7 +2,7 @@ import telebot
 import config
 import phrases as ph
 from keyboards import main_keyboard
-from keyboards import schedule_keyboard, schedule_button, coaches_button
+from keyboards import schedule_keyboard, schedule_button, address_button, prices_button, ice_info_button, coaches_button, ask_button
 import coaches as pg
 
 bot = telebot.TeleBot(config.TOKEN)
@@ -18,23 +18,21 @@ def schedule(message):
     return bot.send_message(message.chat.id, ph.SCHEDULE_MESSAGE, reply_markup=schedule_keyboard)
 
 
-# отъебись, тут ещё не исправлял, потом сделаю по аналогии с расписанием
-
-@bot.callback_query_handler(func=lambda call: call.data == 'address')
-def callback_inline(call):
-    bot.send_message(call.message.chat.id, ph.ADDRESS_MESSAGE)
-    bot.send_photo(call.message.chat.id, 'https://www.instagram.com/p/BxHSeUNgRtR/')
-    bot.send_location(call.message.chat.id, 49.9661396, 36.3217929)
+@bot.message_handler(func=lambda message: message.text == address_button.text)
+def address(message):
+    bot.send_message(message.chat.id, ph.ADDRESS_MESSAGE)
+    bot.send_photo(message.chat.id, 'https://www.instagram.com/p/BxHSeUNgRtR/')
+    bot.send_location(message.chat.id, 49.9661396, 36.3217929)
 
 
-@bot.callback_query_handler(func=lambda call: call.data == 'prices')
-def callback_inline(call):
-    bot.send_message(call.message.chat.id, ph.PRICES_MESSAGE)
+@bot.message_handler(func=lambda message: message.text == prices_button.text)
+def prices(message):
+    bot.send_message(message.chat.id, ph.PRICES_MESSAGE)
 
 
-@bot.callback_query_handler(func=lambda call: call.data == 'ice_info')
-def callback_inline(call):
-    bot.send_message(call.message.chat.id, ph.ICE_INFO_MESSAGE)
+@bot.message_handler(func=lambda message: message.text == ice_info_button.text)
+def ice_info(message):
+    bot.send_message(message.chat.id, ph.ICE_INFO_MESSAGE)
 
 
 @bot.message_handler(func=lambda message: message.text == coaches_button.text)
@@ -69,9 +67,9 @@ def generate_pagination_messsage(current_page=1):
     return message, photo_id, paginator.markup
 
 
-@bot.callback_query_handler(func=lambda call: call.data == 'ask')
-def callback_inline(call):
-    bot.send_message(call.message.chat.id, ph.ASK_MESSAGE)
+@bot.message_handler(func=lambda message: message.text == ask_button.text)
+def ask(message):
+    bot.send_message(message.chat.id, ph.ASK_MESSAGE)
 
 
 bot.polling(none_stop=True)
