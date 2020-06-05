@@ -6,7 +6,7 @@ from keyboards import schedule_keyboard, schedule_button, address_button, prices
 import coaches as pg
 from message_sending import *
 
-bot = telebot.TeleBot(config.TOKEN)
+from bot_init import bot
 
 
 @bot.message_handler(commands=['start'])
