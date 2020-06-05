@@ -4,6 +4,7 @@ import phrases as ph
 from keyboards import main_keyboard
 from keyboards import schedule_keyboard, schedule_button, address_button, prices_button, ice_info_button, coaches_button, ask_button
 import coaches as pg
+from message_sending import *
 
 bot = telebot.TeleBot(config.TOKEN)
 
