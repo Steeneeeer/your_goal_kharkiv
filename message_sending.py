@@ -1,23 +1,42 @@
+import os
+import logging
+
 import telebot
 
-joined_file = open("C:\\Users\\Kastet\\Desktop\\users_database.txt", "r")
-joined_users = set()
-for line in joined_file:
-    joined_users.add(line.strip())
-    joined_file.close()
+from config import BASE_DIR
+from bot_init import bot
 
-bot = telebot.TeleBot("1109214579:AAHpGYeD5Y1Go9eCnlC0QkGANKU00WPQJm0")
+FILE_TO_SAVE = os.path.join(BASE_DIR, 'users.txt')
 
 
-@bot.message_handler(commands=['start'])
-def get_id(message):
-    if not str(message.chat.id) in joined_users:
-        joined_file = open("C:\\Users\\Kastet\\Desktop\\users_database.txt", "a")
-        joined_file.write(str(message.chat.id) + '\n')
-        joined_users.add(message.chat.id)
+if not os.path.exists(FILE_TO_SAVE):
+    with open(FILE_TO_SAVE, 'w') as f:
+        pass
+
+
+def add_user(user_id):
+    if str(user_id) in read_users():
+        return
+    with open(FILE_TO_SAVE, 'a') as f:
+        print(user_id, file=f)
+
+
+def read_users():
+    with open(FILE_TO_SAVE, 'r') as f:
+        users = f.read().split()
+    return users
+
+
+def send_messages(users, message, parse_mode=None, reply_markup=None):
+    for user in users:
+        try:
+            bot.send_message(chat_id=user, text=message, parse_mode=parse_mode, reply_markup=reply_markup)
+        except telebot.apihelper.ApiException:
+            logging.error(f"Message to user {user} was not sent")
 
 
 @bot.message_handler(commands=['sending_secret_message'])
 def send_message(message):
-    for user in joined_users:
-        bot.send_message(user, message.text[message.text.find(' '):])
+    message_text = message.text[message.text.find(' '):]
+    users = read_users()
+    send_messages(users, message_text)
