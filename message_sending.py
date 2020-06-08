@@ -27,7 +27,7 @@ def read_users():
     return users
 
 
-def send_messages(users, message, parse_mode=None, reply_markup=None):
+def send_messages(users, message, parse_mode=HTML, reply_markup=None):
     for user in users:
         try:
             bot.send_message(chat_id=user, text=message, parse_mode=parse_mode, reply_markup=reply_markup)
@@ -40,3 +40,17 @@ def send_message(message):
     message_text = message.text[message.text.find(' '):]
     users = read_users()
     send_messages(users, message_text)
+
+
+def send_photo(users, photo, parse_mode=None, reply_markup=None):
+    for user in users:
+        try:
+            bot.send_photo(chat_id=user, photo=photo, reply_markup=reply_markup, parse_mode=parse_mode)
+        except telebot.apihelper.ApiException:
+            logging.error(f"Message to user {user} was not sent")
+
+@bot.message_handler(commands=['sending_photo_message'])
+def photo_message(message):
+    message_photo = message.[message.text.find(' '):]
+    users = read_users()
+    send_messages(users, message_photo)
