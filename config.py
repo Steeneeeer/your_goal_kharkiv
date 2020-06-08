@@ -2,5 +2,5 @@ import os
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
-TOKEN = "1109214579:AAHpGYeD5Y1Go9eCnlC0QkGANKU00WPQJm0"
+TOKEN = "1204011428:AAEObvwZgLWKMCm5EbEnJBQmz6MqIP3ui_I"
 LOG_FILE = os.path.join(BASE_DIR, "bot.log")

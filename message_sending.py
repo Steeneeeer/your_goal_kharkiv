@@ -8,7 +8,6 @@ from bot_init import bot
 
 FILE_TO_SAVE = os.path.join(BASE_DIR, 'users.txt')
 
-
 if not os.path.exists(FILE_TO_SAVE):
     with open(FILE_TO_SAVE, 'w') as f:
         pass
@@ -27,7 +26,7 @@ def read_users():
     return users
 
 
-def send_messages(users, message, parse_mode=HTML, reply_markup=None):
+def send_messages(users, message, parse_mode='Markdown', reply_markup=None):
     for user in users:
         try:
             bot.send_message(chat_id=user, text=message, parse_mode=parse_mode, reply_markup=reply_markup)
@@ -49,8 +48,24 @@ def send_photo(users, photo, parse_mode=None, reply_markup=None):
         except telebot.apihelper.ApiException:
             logging.error(f"Message to user {user} was not sent")
 
+
 @bot.message_handler(commands=['sending_photo_message'])
 def photo_message(message):
-    message_photo = message.[message.text.find(' '):]
+    message_photo = message.photo
     users = read_users()
     send_messages(users, message_photo)
+
+
+def send_video(users, video, parse_mode=None, reply_markup=None):
+    for user in users:
+        try:
+            bot.send_photo(chat_id=user, video=video, reply_markup=reply_markup, parse_mode=parse_mode)
+        except telebot.apihelper.ApiException:
+            logging.error(f"Message to user {user} was not sent")
+
+
+@bot.message_handler(commands=['sending_video_message'])
+def photo_message(message):
+    message_video = message.video
+    users = read_users()
+    send_messages(users, message_video)
