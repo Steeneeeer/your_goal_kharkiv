@@ -7,9 +7,11 @@ schedule_button = types.KeyboardButton("Расписание")
 address_button = types.KeyboardButton("Адрес")
 ice_info_button = types.KeyboardButton("Информация по льду")
 coaches_button = types.KeyboardButton("Тренера")
+franchise_button = types.KeyboardButton("Сотрудничество")
 ask_button = types.KeyboardButton("Задать вопрос")
 
-main_keyboard.add(prices_button, schedule_button, address_button, ice_info_button, coaches_button, ask_button)
+
+main_keyboard.add(prices_button, schedule_button, address_button, ice_info_button, coaches_button, franchise_button, ask_button)
 
 
 schedule_keyboard = types.InlineKeyboardMarkup()
