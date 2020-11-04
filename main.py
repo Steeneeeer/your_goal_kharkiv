@@ -1,8 +1,10 @@
+from typing import TextIO
+
 import telebot
 import config
 import phrases as ph
 from keyboards import main_keyboard
-from keyboards import schedule_keyboard, schedule_button, address_button, prices_button, ice_info_button, coaches_button, ask_button
+from keyboards import schedule_keyboard, schedule_button, address_button, prices_button, ice_info_button, coaches_button, franchise_button, ask_button
 import coaches as pg
 from message_sending import *
 
@@ -23,8 +25,13 @@ def schedule(message):
 @bot.message_handler(func=lambda message: message.text == address_button.text)
 def address(message):
     bot.send_message(message.chat.id, ph.ADDRESS_MESSAGE)
-    bot.send_photo(message.chat.id, 'https://www.instagram.com/p/BxHSeUNgRtR/')
-    bot.send_location(message.chat.id, 49.9661396, 36.3217929)
+    turn1 = open('C:/Users/Kastet/Downloads/Turn1.jpg', 'rb')
+    turn2 = open('C:/Users/Kastet/Downloads/Turn2.jpg', 'rb')
+    door = open('C:/Users/Kastet/Downloads/Door.jpg', 'rb')
+    bot.send_photo(message.chat.id, turn1)
+    bot.send_photo(message.chat.id, turn2)
+    bot.send_photo(message.chat.id, door)
+    bot.send_location(message.chat.id, 49.953183, 36.327853)
 
 
 @bot.message_handler(func=lambda message: message.text == prices_button.text)
@@ -67,6 +74,11 @@ def generate_pagination_messsage(current_page=1):
     message = coach.text
     photo_id = coach.photo_id
     return message, photo_id, paginator.markup
+
+
+@bot.message_handler(func=lambda message: message.text == franchise_button.text)
+def franchise(message):
+    bot.send_message(message.chat.id, ph.FRANCHISE_MESSAGE)
 
 
 @bot.message_handler(func=lambda message: message.text == ask_button.text)

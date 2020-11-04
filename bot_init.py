@@ -1,10 +1,11 @@
 import logging
 import telebot
+from telebot import TeleBot
 
 from config import TOKEN, LOG_FILE
 
 
-bot = telebot.TeleBot(TOKEN)
+bot: TeleBot = telebot.TeleBot(TOKEN)
 
 logger = telebot.logger
 logging.basicConfig(filename=LOG_FILE, filemode='a', format='%(asctime)s:%(name)s - %(message)s')
